@@ -1,4 +1,5 @@
-const { Product } = require('../models/product.js');
+const db = require('../models'); // Adjust path as necessary
+const Product = db.Product;
 
 exports.getAllProducts = async () => {
   console.log('productService.getAllProducts')

@@ -1,5 +1,6 @@
-const { Order } = require('../models/order.js');
-const { OrderDetails } = require('../models/orderDetails.js');
+const db = require('../models'); // Adjust path as necessary
+const Order = db.Order;
+const OrderDetails = db.OrderDetails;
 
 exports.createOrder = async (userId, items, totalAmount) => {
   const order = await Order.create({ userId, totalAmount });

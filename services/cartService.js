@@ -1,5 +1,6 @@
-const { Cart } = require('../models/cart.js');
-const { Product } = require('../models/product.js');
+const db = require('../models'); // Adjust path as necessary
+const Product = db.Product;
+const Cart = db.Cart;
 
 exports.getCartItems = async (userId) => {
   return await Cart.findAll({

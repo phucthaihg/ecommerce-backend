@@ -1,28 +1,49 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class SubCategory extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-      SubCategory.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'category' });
-      SubCategory.hasMany(models.Product, { foreignKey: 'subCategoryId', as: 'products' });
-    }
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/db');
+const Category = require('./category');
+
+class SubCategory extends Model {
+  static associate(models) {
+    SubCategory.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'category', onDelete: 'CASCADE' });
+    SubCategory.hasMany(models.Product, { foreignKey: 'subCategoryId', as: 'products', onDelete: 'CASCADE' });
   }
-  SubCategory.init({
-    name: DataTypes.STRING,
-    description: DataTypes.TEXT,
-    categoryId: DataTypes.INTEGER,
-    image: DataTypes.STRING,
-  }, {
-    sequelize,
-    modelName: 'SubCategory',
-  });
-  return SubCategory;
-};
+
+  static init(sequelize) {
+    return super.init(
+      {
+        id: {
+          type: DataTypes.INTEGER,
+          autoIncrement: true,
+          primaryKey: true,
+        },
+        name: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        description: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        categoryId: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          references: {
+            model: 'Category',
+            key: 'id',
+          },
+        },
+        image: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+      },
+      {
+        sequelize,
+        modelName: 'SubCategory',
+        timestamps: true,
+      }
+    );
+  }
+}
+module.exports = SubCategory;

@@ -1,4 +1,5 @@
-const { User } = require('../models/user.js');
+const db = require('../models'); // Adjust path as necessary
+const User = db.User;
 
 exports.getUserById = async (id) => {
   const user = await User.findByPk(id);

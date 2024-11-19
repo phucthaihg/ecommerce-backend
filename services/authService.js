@@ -1,4 +1,5 @@
-const { User } = require('../models/user.js');
+const db = require('../models'); // Adjust path as necessary
+const User = db.User;
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');

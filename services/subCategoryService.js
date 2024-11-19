@@ -1,4 +1,5 @@
-const { SubCategory } = require('../models/subCategory.js');
+const db = require('../models'); // Adjust path as necessary
+const SubCategory = db.SubCategories;
 
 exports.getAllSubCategories = async () => {
   return await SubCategory.findAll();

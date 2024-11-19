@@ -1,4 +1,5 @@
-const { Category } = require('../models/category.js');
+const db = require('../models'); // Adjust path as necessary
+const Category = db.Category;
 
 exports.getAllCategories = async () => {
   return await Category.findAll();

@@ -25,23 +25,6 @@ app.use(cors());
 app.use(requestLogger);
 
 // Routes
-
-// Sample route
-/*
-app.get('/api/products', async (req, res) => {
-  try {
-    const products = await sequelize.query('SELECT * FROM "Products"', {
-      type: sequelize.QueryTypes.SELECT,
-    });
-    console.log(`[API Response]: Returning ${products.length} products`);
-    res.status(200).json(products);
-  } catch (error) {
-    console.error('[API Error]:', error);
-    res.status(500).json({ error: 'Failed to fetch products' });
-  }
-});
-*/
-
 app.use('/api/auth', authRoutes);
 app.use('/api/users', verifyToken, userRoutes);
 app.use('/api/categories', categoryRoutes);

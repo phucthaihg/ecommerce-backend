@@ -1,26 +1,42 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Order extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-      Order.hasMany(models.OrderDetails, { foreignKey: 'orderId', as: 'items' });
-    }
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/db');
+
+class Order extends Model {
+  static associate(models) {
+    Order.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+    Order.hasMany(models.OrderDetails, { foreignKey: 'orderId', as: 'items', onDelete: 'CASCADE' });
   }
-  Order.init({
-    totalAmount: DataTypes.DECIMAL,
-    status: DataTypes.STRING,
-    userId: DataTypes.INTEGER,
-  }, {
-    sequelize,
-    modelName: 'Order',
-  });
-  return Order;
-};
+
+  static init(sequelize) {
+    return super.init(
+      {
+        id: {
+          type: DataTypes.INTEGER,
+          autoIncrement: true,
+          primaryKey: true,
+        },
+        userId: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+        },
+        totalAmount: {
+          type: DataTypes.FLOAT,
+          allowNull: false,
+          defaultValue: 0.0,
+        },
+        status: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          defaultValue: 'pending',
+        },
+      },
+      {
+        sequelize,
+        modelName: 'Order',
+        timestamps: true,
+      }
+    );
+  }
+}
+module.exports = Order;
